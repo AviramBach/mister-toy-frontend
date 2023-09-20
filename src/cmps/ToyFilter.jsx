@@ -33,6 +33,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
                     placeholder="By Name"
                     value={filterByToEdit.txt}
                     onChange={handleChange}
+                    
                 />
 
                 {/* <label htmlFor="maxPrice">Max price:</label>
