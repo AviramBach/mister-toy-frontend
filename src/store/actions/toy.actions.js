@@ -44,8 +44,8 @@ export function saveToy(toy) {
     const type = toy._id ? UPDATE_TOY : ADD_TOY
     return toyService.save(toy)
         .then(toyToSave => {
-            store.dispatch({ type, toy: toyToSave })
-            return toyToSave
+            return store.dispatch({ type, toy: toyToSave })
+            
         })
         .catch(err => {
             console.log('toy action -> Cannot save toy', err)

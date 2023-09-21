@@ -16,8 +16,8 @@ export function ToyIndex() {
     const toys = useSelector(storeState => storeState.toyModule.toys)
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
-    const [toyToAdd, setToyToAdd] = useState(toyService.getEmptyToy())
-    const [sortBy, setSortBy] = useState({ type: '', desc: -1 })
+    // const [toyToAdd, setToyToAdd] = useState(toyService.getEmptyToy())
+    const [sortBy, setSortBy] = useState(toyService.getDefaultSort())
 
     useEffect(() => {
         loadToys(sortBy)
@@ -30,7 +30,7 @@ export function ToyIndex() {
 
     function onRemoveToy(toyId) {
         // removeToy(toyId)
-        removeToyOptimistic(toyId)
+        removeToy(toyId)
             .then(() => {
                 showSuccessMsg('Toy removed')
             })
@@ -40,17 +40,16 @@ export function ToyIndex() {
             })
     }
 
-    function handleChange({ target }) {
-        const value = target.value
-        setToyToAdd(prevToy => ({ ...prevToy, name: value }))
-    }
+    // function handleChange({ target }) {
+    //     const value = target.value
+    //     setToyToAdd(prevToy => ({ ...prevToy, name: value }))
+    // }
 
-    function onAddToy(ev) {
-        ev.preventDefault()
-        saveToy(toyToAdd)
+    function onAddToy() {
+        const toyToSave = toyService.getEmptyToy()
+        saveToy(toyToSave)
             .then(savedToy => {
                 showSuccessMsg(`Toy added (id: ${savedToy._id})`)
-                setToyToAdd(toyService.getEmptyToy())
             })
             .catch(err => {
                 console.log('Cannot add toy', err)
@@ -58,18 +57,18 @@ export function ToyIndex() {
             })
     }
 
-    function onEditToy(toy) {
-        const price = +prompt('New price?', toy.price)
-        const toyToSave = { ...toy, price }
-        saveToy(toyToSave)
-            .then(savedToy => {
-                showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
-            })
-            .catch(err => {
-                console.log('Cannot update toy', err)
-                showErrorMsg('Cannot update toy')
-            })
-    }
+    // function onEditToy(toy) {
+    //     const price = +prompt('New price?', toy.price)
+    //     const toyToSave = { ...toy, price }
+    //     saveToy(toyToSave)
+    //         .then(savedToy => {
+    //             showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
+    //         })
+    //         .catch(err => {
+    //             console.log('Cannot update toy', err)
+    //             showErrorMsg('Cannot update toy')
+    //         })
+    // }
 
 
     function onSetFilter(filterBy) {
@@ -83,7 +82,9 @@ export function ToyIndex() {
                 {/* <button onClick={onAddToy}>Add Toy </button> */}
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
                 <ToySort sortBy={sortBy} setSortBy={setSortBy} />
-                <form onSubmit={onAddToy}>
+                
+                
+                {/* <form onSubmit={onAddToy}>
                     <input
                         type="text"
                         placeholder="Name of your toy?"
@@ -91,18 +92,20 @@ export function ToyIndex() {
                         value={toyToAdd.name}
                     />
                     <button>Add</button>
-                </form>
+                </form> */}
 
+
+                <button className="btn-add-toy" onClick={onAddToy}>add Toy 🧸</button>
+                
                 {!isLoading && <ToyList
                     toys={toys}
                     onRemoveToy={onRemoveToy}
-                    onEditToy={onEditToy}
+                    // onEditToy={onEditToy}
                 />
                 }
 
                 {isLoading && <div>Loading...</div>}
                 <hr />
-                {/* <pre>{JSON.stringify(toyt, null, 2)}</pre> */}
             </main>
         </div>
     )

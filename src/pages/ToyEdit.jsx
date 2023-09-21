@@ -1,9 +1,9 @@
 import { toyService } from "../services/toy.service.js"
 import { showErrorMsg } from "../services/event-bus.service.js"
-
+import { saveToy } from '../store/actions/toy.actions.js'
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-
+import { MultiSelect } from '../cmps/MultiSelect'
 
 
 
@@ -11,70 +11,98 @@ export function ToyEdit() {
 
     const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
     const navigate = useNavigate()
-    const params = useParams()
+    const { toyId } = useParams()
 
     useEffect(() => {
-        if (params.toyId) loadToy()
+        if (!toyId) return
+        toyService.getById(toyId).then(toy => {
+            setToyToEdit(toy)
+        })
     }, [])
 
-    function loadToy() {
-        toyService.getById(params.toyId)
-            .then(setToyToEdit)
-            .catch(err => {
-                console.log('Had issued in toy edit:', err);
-                navigate('/toy')
-                showErrorMsg('Toy not found!')
-            })
+    function handleChange(ev) {
+        
+        const field = ev.target.name
+        const value = ev.target.type === 'number' ? +ev.target.value : ev.target.value
+        setToyToEdit({ ...toyToEdit, [field]: value })
     }
 
-    function handleChange({ target }) {
-        // const value = target.value
-        // setToyToEdit(prevToy => ({ ...prevToy, name: value }))
-
-        const field = target.name
-        const value = target.type === 'number' ? (+target.value || '') : target.value
-        setToyToEdit(prevToy => ({ ...prevToy, [field]: value }))
-
+    function onSetLabels(labels) {
+        setToyToEdit({ ...toyToEdit, labels })
     }
 
-    function onSaveToy(ev) {
+    function onSave(ev) {
         ev.preventDefault()
 
-        toyService.save(toyToEdit)
-            .then(() => navigate('/toy'))
-            .catch(err => {
-                showErrorMsg('Cannot save toy', err)
+        const newToy = {
+            ...toyToEdit,
+            inStock: (toyToEdit.inStock === 'true') ? true : false
+        }
+        
+        saveToy(newToy)
+            .then(() => {
+                showSuccessMsg('Toy saved successfully')
+                console.log("saved toy successfully");
+                navigate('/toy')
             })
+            .catch(err => {
+                showErrorMsg('Can not save toy, please try again')
+            })
+            navigate('/toy')
     }
 
-    const { name, price } = toyToEdit
+    function getYesNo() {
+        return toyToEdit.inStock
+    }
 
+    if (!toyToEdit) return <div>Loading...</div>
     return (
-        <section className="toy-edit">
-            <h2>Edit Toy</h2>
-
-            <form onSubmit={onSaveToy}>
-                {/* <input
-                    type="text"
-                    value={name}
-                    onChange={handleChange}
-                />
-
-                <input
-                    type="number"
-                    value={price}
-                    onChange={handleChange}
-                /> */}
-
-                <label htmlFor="name">Name:</label>
-                <input onChange={handleChange} value={name} type="text" name="name" id="name" />
-
-                <label htmlFor="price">Price:</label>
-                <input onChange={handleChange} value={price} type="number" name="price" id="price" />
-
-                <button>Save</button>
-                {/* <button onClick={onAddToy}>Add Toy</button> */}
-            </form>
-        </section>
+        <form onSubmit={onSave} className="container edit-form" action="">
+            <div>
+                <label>
+                    <span>Name</span>
+                    <input
+                        className="edit-input name-input"
+                        value={toyToEdit.name}
+                        onChange={handleChange}
+                        type="text"
+                        name="name" />
+                </label>
+            </div>
+            <div>
+                <label>
+                    <span>Price</span>
+                    <input
+                        className="edit-input price-input"
+                        value={toyToEdit.price}
+                        onChange={handleChange}
+                        type="number"
+                        name="price" />
+                </label>
+            </div>
+            <div>
+                {/* <MultiSelect onSetLabels={onSetLabels} /> */}
+                
+                
+                {/* <select value={toyToEdit.type || '1'} onChange={handleChange} name="type" className='edit-input'>
+                    <option value={'1'} disabled>
+                        Type
+                    </option>
+                    <option value="Funny">Funny</option>
+                    <option value="Adult">Adult</option>
+                    <option value="Educational">Educational</option>
+                </select> */}
+            </div>
+            <div>
+                <select value={getYesNo() || '1'} onChange={handleChange} name="inStock" className='edit-input'>
+                    <option value={'1'} disabled>
+                        In Stock
+                    </option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <button onClick={onSave} className="save-toy-btn">Save</button>
+        </form>
     )
 }

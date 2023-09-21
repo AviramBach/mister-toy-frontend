@@ -2,7 +2,7 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 // import { userService } from './user.service.js'
-// import { httpService } from './http.service.js'
+import { httpService } from './http.service.js'
 
 const BASE_URL = 'toy/'
 const STORAGE_KEY = 'toyDB'
@@ -17,21 +17,24 @@ export const toyService = {
     remove,
     getEmptyToy,
     getDefaultFilter,
-    getDefaultSort
+    getDefaultSort,
+    getLabels
 }
 
 function query(filterBy = {}, sortBy) {
-    return storageService.query(STORAGE_KEY)
-    .then(toys => {
-        if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                toys = toys.filter(toy => regExp.test(toy.name))
-            }
+    // return storageService.query(STORAGE_KEY)
+    // .then(toys => {
+    //     if (filterBy.txt) {
+    //             const regExp = new RegExp(filterBy.txt, 'i')
+    //             toys = toys.filter(toy => regExp.test(toy.name))
+    //         }
 
-            toys = getSortedToys(toys, sortBy)
-            return toys
-    })
-    // return httpService.get(BASE_URL, filterBy)
+    //         toys = getSortedToys(toys, sortBy)
+    //         return toys
+    // })
+
+    return httpService.get(BASE_URL, filterBy, sortBy)
+
     // .then(toys => {
     //     return toys.filter(toy =>
     //         regExp.test(toy.vendor) &&
@@ -41,30 +44,31 @@ function query(filterBy = {}, sortBy) {
 }
 
 function getById(toyId) {
-    return storageService.get(STORAGE_KEY, toyId)
-    // return httpService.get(BASE_URL + toyId)
+    // return storageService.get(STORAGE_KEY, toyId)
+    return httpService.get(BASE_URL + toyId)
 }
 
 function remove(toyId) {
-    return storageService.remove(STORAGE_KEY, toyId)
-    // return httpService.delete(BASE_URL + toyId)
+    // return storageService.remove(STORAGE_KEY, toyId)
+    return httpService.delete(BASE_URL + toyId)
 }
 
 function save(toy) {
     if (toy._id) {
-        return storageService.put(STORAGE_KEY, toy)
-        // return httpService.put(BASE_URL, toy)
+        // return storageService.put(STORAGE_KEY, toy)
+        return httpService.put(BASE_URL, toy)
 
     } else {
-        return storageService.post(STORAGE_KEY, toy)
-        // return httpService.post(BASE_URL, toy)
+        // return storageService.post(STORAGE_KEY, toy)
+        return httpService.post(BASE_URL, toy)
     }
 }
 
 function getEmptyToy() {
     return {
         name: '',
-        price: utilService.getRandomIntInclusive(10, 150),
+        // price: utilService.getRandomIntInclusive(10, 150),
+        price: '',
         labels: _getLabels(),
         createdAt: Date.now(),
         inStock: true
@@ -92,7 +96,11 @@ function getSortedToys(toysToDisplay, sortBy) {
 }
 
 function getDefaultSort() {
-    return { type: '', desc: -1 }
+    return {
+        // 
+        by: 'name',
+        asc: true
+    }
 }
 
 function _getLabels(){
@@ -108,6 +116,9 @@ function _getLabels(){
     return toyLabels
 }
 
+function getLabels() {
+    return [...labels]
+}
 // TEST DATA
 // storageService.post(STORAGE_KEY, {vendor: 'Subali Rahok 6', price: 980}).then(x => console.log(x))
 
