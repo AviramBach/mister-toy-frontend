@@ -16,17 +16,19 @@ export const toyService = {
     save,
     remove,
     getEmptyToy,
-    getDefaultFilter
+    getDefaultFilter,
+    getDefaultSort
 }
 
-function query(filterBy = {}) {
+function query(filterBy = {}, sortBy) {
     return storageService.query(STORAGE_KEY)
     .then(toys => {
         if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 toys = toys.filter(toy => regExp.test(toy.name))
             }
-                
+
+            toys = getSortedToys(toys, sortBy)
             return toys
     })
     // return httpService.get(BASE_URL, filterBy)
@@ -72,6 +74,25 @@ function getEmptyToy() {
 
 function getDefaultFilter() {
     return { txt: '', maxPrice: '' }
+}
+
+function getSortedToys(toysToDisplay, sortBy) {
+    if (sortBy.type === 'txt') {
+        toysToDisplay.sort((b1, b2) => {
+            const title1 = b1.name.toLowerCase()
+            const title2 = b2.name.toLowerCase()
+            return sortBy.desc * title2.localeCompare(title1)
+        })
+    } else {
+        toysToDisplay.sort(
+            (b1, b2) => sortBy.desc * (b2[sortBy.type] - b1[sortBy.type])
+        )
+    }
+    return toysToDisplay
+}
+
+function getDefaultSort() {
+    return { type: '', desc: -1 }
 }
 
 function _getLabels(){

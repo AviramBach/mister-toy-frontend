@@ -2,11 +2,11 @@ import { toyService } from "../../services/toy.service.js";
 import { ADD_TOY, TOY_UNDO, REMOVE_TOY, SET_TOYS, SET_IS_LOADING, UPDATE_TOY } from "../reducers/toy.reducer.js";
 import { store } from "../store.js";
 
-export function loadToys() {
+export function loadToys(sortBy) {
     const { filterBy } = store.getState().toyModule
 
     store.dispatch({ type: SET_IS_LOADING, isLoading: true })
-    return toyService.query(filterBy)
+    return toyService.query(filterBy,sortBy)
         .then(toys => {
             store.dispatch({ type: SET_TOYS, toys })
         })

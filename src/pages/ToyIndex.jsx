@@ -2,6 +2,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { ToyFilter } from '../cmps/ToyFilter.jsx'
 import { ToyList } from '../cmps/ToyList.jsx'
+import { ToySort } from '../cmps/ToySort.jsx'
 
 import { toyService } from '../services/toy.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
@@ -16,14 +17,15 @@ export function ToyIndex() {
     const filterBy = useSelector(storeState => storeState.toyModule.filterBy)
     const isLoading = useSelector(storeState => storeState.toyModule.isLoading)
     const [toyToAdd, setToyToAdd] = useState(toyService.getEmptyToy())
+    const [sortBy, setSortBy] = useState({ type: '', desc: -1 })
 
     useEffect(() => {
-        loadToys()
+        loadToys(sortBy)
             .catch(err => {
                 console.log('err:', err)
                 showErrorMsg('Cannot load toys')
             })
-    }, [filterBy])
+    }, [filterBy,sortBy])
 
 
     function onRemoveToy(toyId) {
@@ -80,7 +82,7 @@ export function ToyIndex() {
             <main>
                 {/* <button onClick={onAddToy}>Add Toy </button> */}
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-
+                <ToySort sortBy={sortBy} setSortBy={setSortBy} />
                 <form onSubmit={onAddToy}>
                     <input
                         type="text"
