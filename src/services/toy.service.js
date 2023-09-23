@@ -21,7 +21,7 @@ export const toyService = {
     getLabels
 }
 
-function query(filterBy = {}, sortBy) {
+function query(filterBy = {}, sortBy={}) {
     // return storageService.query(STORAGE_KEY)
     // .then(toys => {
     //     if (filterBy.txt) {
@@ -33,7 +33,7 @@ function query(filterBy = {}, sortBy) {
     //         return toys
     // })
 
-    return httpService.get(BASE_URL, filterBy, sortBy)
+    return httpService.get(BASE_URL, filterBy, sortBy )
 
     // .then(toys => {
     //     return toys.filter(toy =>

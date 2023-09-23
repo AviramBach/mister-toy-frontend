@@ -11,6 +11,7 @@ import { store } from './store/store'
 import { ToyIndex } from './pages/ToyIndex'
 import { ToyDetails } from './pages/ToyDetails'
 import { ToyEdit } from './pages/ToyEdit'
+import { DashBorad } from './pages/DashBorad'
 
 
 // import reactLogo from './assets/react.svg'
@@ -31,6 +32,7 @@ export function App() {
                           <Route element={<ToyIndex />} path="/toy" />
                           <Route element={<ToyDetails />} path="/toy/:toyId" />
                           <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
+                          <Route element={<DashBorad />} path="/dash" />
                       </Routes>
                   </main>
                   {/* <AppFooter /> */}

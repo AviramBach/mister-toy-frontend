@@ -75,13 +75,17 @@ export function ToyIndex() {
         dispatch({ type: SET_FILTER_BY, filterBy })
     }
 
+    function onSetSort(sortBy) {
+        setSortBy(sortBy)
+    }
+
     return (
         <div>
             <h3>MisterToy market place</h3>
             <main>
                 {/* <button onClick={onAddToy}>Add Toy </button> */}
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
-                <ToySort sortBy={sortBy} setSortBy={setSortBy} />
+                <ToySort sortBy={sortBy} onSetSort={setSortBy} />
                 
                 
                 {/* <form onSubmit={onAddToy}>

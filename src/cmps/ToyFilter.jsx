@@ -23,7 +23,7 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
 
     return (
-        <section className="car-filter full main-layout">
+        <section className="toy-filter full main-layout">
             {/* <h2>Filter Toys</h2> */}
             <form >
                 <label htmlFor="name">Filter:</label>
