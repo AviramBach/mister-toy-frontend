@@ -1,0 +1,39 @@
+.main-toys-page{
+
+ 
+}
+
+.toy-index {
+
+  h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: pink;
+  }
+
+  .toy-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+  }
+
+  .add-toy {
+    background-color: #007bff;
+    color: $clr4;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    align-self: flex-start;
+    
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+}

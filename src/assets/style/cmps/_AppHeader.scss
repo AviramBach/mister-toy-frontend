@@ -1,0 +1,20 @@
+.app-header {
+  background-color: rgb(55, 0, 255);
+  color: white;
+  padding: 1em;
+  font-family: 'Edu VIC WA NT Beginner', cursive;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+
+}
+
+.app-header nav{
+  align-self: center;
+}
+
+// @media(max-width: 720px) {
+//   .app-header {
+//     color: white;
+//   }
+// }

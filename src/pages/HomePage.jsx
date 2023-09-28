@@ -9,7 +9,7 @@ export function HomePage() {
 
 
     return (
-        <section>
+        <section className="welcome-messege">
            <h1>Welcome to Mister Toy</h1> 
            <h2>The place where toys R' U!</h2>
         </section >

@@ -1,7 +1,5 @@
 import { Route, HashRouter as Router, Routes } from 'react-router-dom'
-import { useState } from 'react'
 import { Provider } from 'react-redux'
-import './assets/style/main.css'
 
 import { AboutUs } from './pages/AboutUs'
 import { AppHeader } from './cmps/AppHeader'
@@ -13,6 +11,8 @@ import { ToyDetails } from './pages/ToyDetails'
 import { ToyEdit } from './pages/ToyEdit'
 import { DashBorad } from './pages/DashBorad'
 
+// import './assets/style/main.css'
+import './assets/style/main.scss'
 
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
@@ -25,7 +25,7 @@ export function App() {
           <Router>
               <section className="main-layout app">
                   <AppHeader />
-                  <main>
+                  <main className='main-home-page'>
                       <Routes>
                           <Route element={<HomePage />} path="/" />
                           <Route element={<AboutUs />} path="/about" />

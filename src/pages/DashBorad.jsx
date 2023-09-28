@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 // import faker from 'faker';
-import {  ArcElement } from 'chart.js';
+import { ArcElement } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -92,10 +92,16 @@ export const data = {
 };
 
 export function DashBorad() {
-    return(
-        <div>
-            <Line options={options} data={data} className='sales-chart' />
-            <Pie data={dataPie} />
+    return (
+        <div className='dashborad-container'>
+            <Line className='lineChart' options={options} data={data} />
+            
+            <div className='pieChart'>
+                <h1>Here you can find our statistics!
+                this is our journy to be the world's best toys seller</h1>
+                <Pie data={dataPie} />
+
+            </div>
         </div>
     )
 }

@@ -81,8 +81,8 @@ export function ToyIndex() {
 
     return (
         <div>
-            <h3>MisterToy market place</h3>
-            <main>
+            {/* <h3>Market place</h3> */}
+            <section className='main-toys-page'>
                 {/* <button onClick={onAddToy}>Add Toy </button> */}
                 <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
                 <ToySort sortBy={sortBy} onSetSort={setSortBy} />
@@ -108,9 +108,9 @@ export function ToyIndex() {
                 />
                 }
 
-                {isLoading && <div>Loading...</div>}
+                {/* {isLoading && <div>Loading...</div>} */}
                 <hr />
-            </main>
+            </section>
         </div>
     )
 

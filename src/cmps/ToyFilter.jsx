@@ -23,10 +23,10 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
 
     return (
-        <section className="toy-filter full main-layout">
+        <section className="toy-filter">
             {/* <h2>Filter Toys</h2> */}
             <form >
-                <label htmlFor="name">Filter:</label>
+                <label htmlFor="name">Search: </label>
                 <input type="text"
                     id="name"
                     name="txt"

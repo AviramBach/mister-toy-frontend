@@ -1,0 +1,52 @@
+.toy-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.toy-list li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  /* background-color: rgba(220, 220, 220, 0.434); */
+  background-color: rgba(50, 64, 223, 0.642);
+  margin: 0.5em;
+  border-radius: 5%;
+}
+
+// .toys-list {
+//   list-style: none;
+//   padding: 0;
+//   margin: 0 auto;
+//   display: flex;
+//   flex-wrap: wrap;
+//   justify-content: space-evenly;
+
+//   @include for-wide-layout {
+//     justify-content: space-between;
+//   }
+
+//   .toy {
+//     display: flex;
+//     justify-content: space-between;
+//     align-items: center;
+//     background-color: #fff;
+//     padding: 10px;
+//     border-radius: 5px;
+//     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+//     margin-bottom: 10px;
+//     width: 380px;
+
+//     @include for-narrow-layout {
+//       background-color: aqua;
+//     }
+
+//     @include for-normal-layout {
+//       background-color: rgb(164, 30, 142);
+//     }
+
+//     @include for-wide-layout {
+//       background-color: rgb(255, 204, 0);
+//     }
+//   }
+// }

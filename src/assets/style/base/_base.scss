@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+// .app-container {
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   background-color: #fff;
+//   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+// }
+
+// header {
+//   background-color: #007bff;
+//   color: #fff;
+//   padding: 20px 0;
+// }
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+
+a {
+  text-decoration: none;
+  color: unset;
+
+  &.active {
+    text-decoration: overline;
+  }
+}
+
+button {
+  cursor: pointer;
+  background-color: lightgray;
+  margin: 0.5em;
+  border: 0;
+  padding: 0.5em 0.8em;
+  border-radius: 4px;   
+}
+
+button:hover {
+  background-color: darkgrey;
+  color: rgb(55, 0, 255);
+  transition: .3s;
+}
+input:focus {
+  background-color: darkgrey;
+  transition: background-color 1s;
+}
