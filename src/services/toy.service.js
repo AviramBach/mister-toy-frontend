@@ -5,7 +5,7 @@ import { utilService } from './util.service.js'
 import { httpService } from './http.service.js'
 
 const BASE_URL = 'toy/'
-const STORAGE_KEY = 'toyDB'
+const STORAGE_KEY = 'toy'
 
 const labels = ['On wheels', 'Box game', 'Art', 'Baby',
     'Doll', 'Puzzle', 'Outdoor', 'Battery Powered']
@@ -18,10 +18,13 @@ export const toyService = {
     getEmptyToy,
     getDefaultFilter,
     getDefaultSort,
-    getLabels
+    getLabels,
+    addToyMsg
 }
 
-function query(filterBy = {}, sortBy={}) {
+window.cs = toyService
+
+async function query(filterBy = { txt: ''}) {
     // return storageService.query(STORAGE_KEY)
     // .then(toys => {
     //     if (filterBy.txt) {
@@ -33,35 +36,38 @@ function query(filterBy = {}, sortBy={}) {
     //         return toys
     // })
 
-    return httpService.get(BASE_URL, filterBy, sortBy )
+    // return httpService.get(BASE_URL, filterBy, sortBy )
 
-    // .then(toys => {
-    //     return toys.filter(toy =>
-    //         regExp.test(toy.vendor) &&
-    //         toy.price <= filterBy.maxPrice
-    //     )
-    // })
+    return httpService.get(STORAGE_KEY, filterBy)
+    
 }
 
 function getById(toyId) {
     // return storageService.get(STORAGE_KEY, toyId)
-    return httpService.get(BASE_URL + toyId)
+    // return httpService.get(BASE_URL + toyId)
+    return httpService.get(`toy/${toyId}`)
 }
 
-function remove(toyId) {
+async function remove(toyId) {
     // return storageService.remove(STORAGE_KEY, toyId)
-    return httpService.delete(BASE_URL + toyId)
+    // return httpService.delete(BASE_URL + toyId)
+    return httpService.delete(`toy/${toyId}`)
 }
 
-function save(toy) {
+async function save(toy) {
+    var savedToy
+
     if (toy._id) {
         // return storageService.put(STORAGE_KEY, toy)
-        return httpService.put(BASE_URL, toy)
+        // return httpService.put(BASE_URL, toy)
+        savedToy = await httpService.put(`toy/${toy._id}`, toy)
 
     } else {
         // return storageService.post(STORAGE_KEY, toy)
-        return httpService.post(BASE_URL, toy)
+        // return httpService.post(BASE_URL, toy)
+        savedToy = await httpService.post('toy', toy)
     }
+    return savedToy
 }
 
 function getEmptyToy() {
@@ -119,6 +125,13 @@ function _getLabels(){
 function getLabels() {
     return [...labels]
 }
+
+
+async function addToyMsg(toyId, txt) {    
+    const savedMsg = await httpService.post(`toy/${toyId}/msg`, {txt})
+    return savedMsg
+}
+
 // TEST DATA
 // storageService.post(STORAGE_KEY, {vendor: 'Subali Rahok 6', price: 980}).then(x => console.log(x))
 
